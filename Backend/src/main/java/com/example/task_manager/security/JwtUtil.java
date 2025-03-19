@@ -6,12 +6,11 @@ import com.example.task_manager.repository.UserRepository;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.util.Date;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,17 +26,30 @@ public class JwtUtil {
     }
 
     //Generate Token
+// Generate Token with Roles as a List
     public String generateToken(String username){
-        Optional<User> user = userRepository.findByUsername(username);
-        Set<Role> roles = user.get().getRoles();
+        Optional<User> userOptional = userRepository.findByUsername(username);
 
-        //Add Roles to the object
+        if (userOptional.isEmpty()) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
 
-        return Jwts.builder().setSubject(username).claim("roles",roles.stream()
-                .map(role -> role.getName()).collect(Collectors.joining(",")))
-                .setIssuedAt(new Date()).setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
-                .signWith(secretKey).compact();
+        User user = userOptional.get();
+        Set<Role> roles = user.getRoles();
+
+        List<String> roleList = roles.stream()
+                .map(Role::getName)
+                .collect(Collectors.toList()); // ✅ Store roles as a List<String>
+
+        return Jwts.builder()
+                .setSubject(username)
+                .claim("roles", roleList)  // ✅ Store as List<String>
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .signWith(secretKey)
+                .compact();
     }
+
 
     //Extract Username
     public String extractUsername(String token){
@@ -45,11 +57,23 @@ public class JwtUtil {
     }
 
     //Extract Roles
+// Extract Roles from JWT
     public Set<String> extractRoles(String token){
-        String rolesString = Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token)
-                .getBody().get("roles", String.class);
-        return Set.of(rolesString);
+        Object rolesObject = Jwts.parser()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("roles");
+
+        if (rolesObject instanceof String) {
+            return Set.of((String) rolesObject); // ✅ Single Role Case
+        } else if (rolesObject instanceof List) {
+            return new HashSet<>((List<String>) rolesObject); // ✅ Multiple Roles Case
+        }
+        return Set.of(); // Return empty set if no roles found
     }
+
 
     //Token Validation
     public boolean tokenValid(String token){

@@ -6,6 +6,7 @@ import com.example.task_manager.entity.User;
 import com.example.task_manager.repository.RoleRepository;
 import com.example.task_manager.repository.UserRepository;
 import com.example.task_manager.security.JwtUtil;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
@@ -61,16 +62,41 @@ public class AuthController {
 
     //Login
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User loginRequest){
-        try{
-            authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken
-                            (loginRequest.getUsername(), loginRequest.getPassword()));
-        }catch (Exception e){
-            System.out.println("Exception: "+ e);
+    public ResponseEntity<Map<String, Object>> login(@RequestBody User loginRequest) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()
+                    )
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Invalid credentials"));
         }
+
+        // Generate JWT token
         String token = jwtUtil.generateToken(loginRequest.getUsername());
-        return ResponseEntity.ok(token);
+
+        // Get user roles
+        Optional<User> userOptional = userRepository.findByUsername(loginRequest.getUsername());
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "User not found"));
+        }
+
+        User user = userOptional.get();
+        Set<String> roles = user.getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
+
+        // Return token + roles
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("roles", roles);
+
+        return ResponseEntity.ok(response);
     }
+
 }
 
