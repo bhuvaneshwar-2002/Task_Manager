@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,7 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent {
   title = 'Task Manager';
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,private router: Router) {}
 
   isAdmin(): boolean {
     return this.authService.getUserRole() === 'ADMIN';
@@ -16,5 +17,9 @@ export class AppComponent {
 
   logout() {
     this.authService.logout();
+  }
+
+  public getRouter(): Router {
+    return this.router;
   }
 }

@@ -1,0 +1,33 @@
+<div class="table-container" (scroll)="onScroll($event)">
+  <input type="text" [(ngModel)]="searchTerm" placeholder="Search..." class="search-box">
+
+  <table>
+    <thead [ngStyle]="{'background-color': headerColor}">
+      <tr>
+        <th *ngFor="let col of columns" (click)="sort(col)">
+          {{ col }}
+          <i *ngIf="sortColumn === col" class="fa" [class.fa-sort-asc]="sortOrder === 'asc'" [class.fa-sort-desc]="sortOrder === 'desc'"></i>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of visibleData; let i = index"
+          [ngStyle]="{'background-color': i % 2 === 0 ? evenRowColor : oddRowColor}"
+          class="row-animation">
+        <td *ngFor="let col of columns">{{ row[col] }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="loading" class="loading">Loading more data...</div>
+</div>
+
+
+<!-- <app-table 
+  [data]="tableData" 
+  [columns]="['Name', 'Age', 'Country']" 
+  headerColor="#4CAF50" 
+  oddRowColor="#f1f1f1" 
+  evenRowColor="#ffffff"
+  [loadBatchSize]="10">
+</app-table> -->

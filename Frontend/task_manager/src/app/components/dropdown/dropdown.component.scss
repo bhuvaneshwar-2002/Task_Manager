@@ -1,0 +1,25 @@
+.dropdown { position: relative; width: 200px; }
+.dropdown-header {
+  border: 1px solid #ccc;
+  padding: 10px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.dropdown-list {
+  list-style: none;
+  border: 1px solid #ccc;
+  padding: 0;
+  margin: 0;
+  background: white;
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+}
+.dropdown-list li {
+  padding: 10px;
+  cursor: pointer;
+}
+.dropdown-list li:hover { background: #f0f0f0; }
+.dropdown-search { width: 100%; padding: 8px; border: none; outline: none; }

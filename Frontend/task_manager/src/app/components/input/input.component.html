@@ -1,0 +1,12 @@
+<div class="input-container">
+  <i *ngIf="icon" [class]="icon"></i>
+  <input 
+    [type]="type" 
+    [formControlName]="formControlName"
+    [placeholder]="placeholder"
+    [formGroup]="formGroup">
+  
+  <span class="error" *ngIf="control?.invalid && control?.touched">
+    {{ errorMessage }}
+  </span>
+</div>

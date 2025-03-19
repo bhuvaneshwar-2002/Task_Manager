@@ -1,0 +1,7 @@
+<button [ngClass]="['btn', variant, size]" [disabled]="loading || disabled">
+    <span *ngIf="loading" class="spinner"></span>
+    <i *ngIf="icon && !loading" [class]="icon"></i>
+    <ng-content></ng-content>
+  </button>
+
+  <!-- <app-button variant="primary" size="large" icon="fa fa-save" [loading]="true">Save</app-button> -->
