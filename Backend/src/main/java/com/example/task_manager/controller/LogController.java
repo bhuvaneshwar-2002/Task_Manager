@@ -34,7 +34,7 @@ public class LogController {
     }
 
     @PostMapping
-//    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<WorkActivity> createLogActivity(@RequestBody WorkActivity workActivity){
         WorkActivity newWorkActivity = logService.createLog(workActivity);
         return ResponseEntity.ok(newWorkActivity);

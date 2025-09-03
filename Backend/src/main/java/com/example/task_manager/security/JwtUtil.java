@@ -25,7 +25,7 @@ public class JwtUtil {
         this.userRepository = userRepository;
     }
 
-    //Generate Token
+
 // Generate Token with Roles as a List
     public String generateToken(String username){
         Optional<User> userOptional = userRepository.findByUsername(username);
