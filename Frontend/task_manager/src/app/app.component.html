@@ -1,9 +1,0 @@
-
-<nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <router-outlet></router-outlet>
-  <a *ngIf="isAdmin()" routerLink="/settings">Admin Panel</a>
-  <button *ngIf="getRouter().url !== '/' && getRouter().url !== '/unauthorized' " (click)="logout()">Logout</button>
-</nav>
-
-<!-- <router-outlet></router-outlet> -->

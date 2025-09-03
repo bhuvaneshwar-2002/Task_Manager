@@ -1,0 +1,45 @@
+.table-container {
+    overflow: auto;
+    max-width: 100%;
+    border: 1px solid #ccc;
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    position: relative;
+    min-width: 50px;
+  }
+  
+  th {
+    background-color: red;
+    color: white;
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+  
+  .resize-handle {
+    width: 5px;
+    height: 100%;
+    background-color: transparent;
+    cursor: ew-resize;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  
+  .resize-handle:hover {
+    background-color: #aaa;
+  }
+  

@@ -1,0 +1,173 @@
+<div class="login-container">
+  <!-- Left Side - Blue Section -->
+  <div class="left-section">
+    <div class="left-content">
+      <!-- Logo -->
+      <div class="logo">
+        <div class="logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+            <path d="M6.5 9L10 12.5 17.5 5"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Main Heading -->
+      <h1 class="main-heading">
+        Navigate Your Projects<br>
+        Like the <span class="ocean-text">Ocean</span>
+      </h1>
+
+      <!-- Description -->
+      <p class="description">
+        Dive deep into productivity with our comprehensive project management system.
+        Flow seamlessly through your tasks and watch your team collaboration reach new
+        depths.
+      </p>
+
+      <!-- Feature List -->
+      <div class="features">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-6h2v6h2v-7.5c0-1.1.9-2 2-2h8c1.1 0 2 .9 2 2V18h2v-6h2v8H4z"/>
+            </svg>
+          </div>
+          <span>Team Collaboration</span>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+          </div>
+          <span>Goal Tracking</span>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+            </svg>
+          </div>
+          <span>Performance Analytics</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Side - Login Form -->
+  <div class="right-section flex flex-col ">
+    <div class="section">
+    <!-- Form Logo -->
+      <div class="form-logo">
+        <div class="form-logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+            <path d="M6.5 9L10 12.5 17.5 5"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Welcome Text -->
+      <div class="welcome-section">
+        <h2 class="welcome-title">Welcome Back</h2>
+        <p class="welcome-subtitle">Sign in to your Project Manager account</p>
+      </div>
+    </div>
+    <div class="login-form-container">
+      <!-- Login Form -->
+      <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Email Field -->
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-input"
+            placeholder="Enter your email"
+            name="email"
+            [class]="{'form-control': true, 'is-invalid': hasError('email', 'required') || hasError('email', 'email')}"
+            autocomplete="email"
+            required>
+        </div>
+        <!-- Validation Messages for Email -->
+        <div class="validation-errors">
+          <div *ngIf="hasError('email', 'required')" class="error-text">
+            Email is required
+          </div>
+          <div *ngIf="hasError('email', 'email')" class="error-text">
+            Please enter a valid email address
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="password-input-container">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              class="form-input"
+              placeholder="Enter your password"
+              formControlName="password"
+              name="password"
+              autocomplete="current-password"
+              required>
+            <!-- Validation Messages for Password -->
+            <div class="validation-errors">
+            <div *ngIf="hasError('password', 'required')" class="error-text">
+                Password is required
+            </div>
+            </div>
+            <button
+              type="button"
+              class="password-toggle"
+              (click)="togglePasswordVisibility()">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" *ngIf="!showPassword">
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" *ngIf="showPassword">
+                <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember Me and Forgot Password -->
+        <div class="form-options">
+          <div class="remember-me">
+            <input
+              type="checkbox"
+              id="rememberMe"
+              name="rememberMe">
+            <label for="rememberMe">Remember me</label>
+          </div>
+          <span class="forgot-password-link" (click)="onForgotPassword()">
+            Forgot password?
+          </span>
+        </div>
+
+        <!-- Sign In Button -->
+        <button type="submit" class="sign-in-btn" (click)="onSubmit()">
+          Sign In
+        </button>
+
+        <!-- Create Account -->
+        <div class="create-account">
+          <span>Don't have an account?</span>
+          <span class="create-account-link" (click)="onCreateAccount()">
+            Create new account
+          </span>
+        </div>
+      </form>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>© 2025 PMS. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+</div>

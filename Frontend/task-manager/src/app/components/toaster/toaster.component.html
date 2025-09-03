@@ -1,0 +1,4 @@
+<div *ngIf="visible" class="toaster" [ngClass]="type">
+  <span class="message">{{ type | titlecase }}: {{ message }}</span>
+  <button *ngIf="showCloseButton" class="close-btn" (click)="close()">×</button>
+</div>

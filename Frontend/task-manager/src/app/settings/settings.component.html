@@ -1,0 +1,6 @@
+
+<app-input class="input" [fields]="formFields" (formSubmit)="submit($event)">
+    <app-button label="Login" type="submit" color="primary" ></app-button>
+</app-input>
+<app-button label="Configuration" type="submit" color="secondary" (click)="config()" ></app-button>
+<app-button label="Logout" type="submit" color="secondary" (click)="logout()" ></app-button>

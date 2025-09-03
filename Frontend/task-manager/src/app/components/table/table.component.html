@@ -1,0 +1,22 @@
+<div #tableContainer class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th *ngFor="let col of columns; let i = index" #tableHeaders>
+            <div class="header-content">
+              <span>{{ col }}</span>
+              <span class="resize-handle" (mousedown)="startResizing($event, i)"></span>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of data">
+          <td *ngFor="let col of columns; let i = index" #tableCells>
+            {{ row[col] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
